@@ -1,0 +1,54 @@
+
+/* Node structure  used in the program
+
+struct Node{
+	int data;
+	struct Node * next;
+	struct Node * bottom;
+	
+	Node(int x){
+	    data = x;
+	    next = NULL;
+	    bottom = NULL;
+	}
+	
+};
+*/
+
+/*  Function which returns the  root of 
+    the flattened linked list. */
+Node *merge(Node *A,Node *B)
+{
+    Node *l1=A;
+    Node *l2=B;
+    if(l1->data>l2->data)
+    std::swap(l1,l2);
+    Node *res=l1;
+    while(l1!=NULL&&l2!=NULL)
+    {
+        Node *temp=l1;
+        while(l1!=NULL&&l1->data<=l2->data)
+        {
+            temp=l1;
+            l1=l1->bottom;
+        }
+        temp->bottom=l2;
+        std::swap(l1,l2);
+    }
+    return res;
+}
+Node *flatten(Node *root)
+{
+   // Your code here
+   if(root==NULL||root->next==NULL)
+   return root;
+   
+   root->next=flatten(root->next);
+   root=merge(root,root->next);
+   
+   
+   return root;
+   
+   
+   
+}
