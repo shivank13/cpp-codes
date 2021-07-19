@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+void lcs(int x[],int y[],int m,int n)
+{
+    int a[m+1][n+1];
+    for(int i=0;i<=m;i++)
+    {
+        for(int j=0;j<=n;j++)
+        {
+            if(i==0||j==0)
+            a[i][j]=0;
+            else if(x[i-1]==y[j-1])
+            a[i][j]=a[i-1][j-1]+1;
+            else
+            a[i][j]=max(a[i-1][j],a[i][j-1]);
+        }
+    }
+    int index= a[m][n];
+    int index1=index;
+    int l[index];
+    
+    int i=m,j=n;
+    while(i>0 && j>0)
+    {
+        if(x[i-1]==y[j-1])
+        {l[index-1]=x[i-1];
+        i--;
+        j--;
+        index--;
+        }
+        else
+        {
+            if(a[i-1][j]>a[i][j-1])
+            i--;
+            else
+            j--;
+        }
+    }
+    for (int i=0;i<index1;i++)
+    cout<<l[i]<<" ";
+}
+
+int main() {
+    // your code goes here
+    int m,n;
+    cin>>m>>n;
+    int x[m],y[n];
+    for(int i=0;i<m;i++)
+    cin>>x[i];
+    for(int i=0;i<n;i++)
+    cin>>y[i];
+    lcs(x,y,m,n);
+    
+    return 0;
+}
